@@ -1,23 +1,22 @@
 package gov.nersc.newt;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
+import gov.nersc.newt.client.beans.StoreResponse;
 import gov.nersc.newt.client.beans.JobResponse;
 import gov.nersc.newt.client.beans.QueueStatus;
 import gov.nersc.newt.client.beans.LoginStatus;
 import gov.nersc.newt.client.beans.DirectoryEntry;
 import gov.nersc.newt.client.beans.SystemStatus;
-import java.io.IOException;
-import java.net.CookieHandler;
-import java.net.CookieManager;
-import java.net.MalformedURLException;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
-import gov.nersc.newt.client.beans.StoreResponse;
 import gov.nersc.newt.client.resources.Account;
 import gov.nersc.newt.client.resources.Files;
 import gov.nersc.newt.client.resources.Queue;
 import gov.nersc.newt.client.resources.Status;
 import gov.nersc.newt.client.resources.Stores;
+import java.io.IOException;
+import java.net.CookieHandler;
+import java.net.CookieManager;
+import java.net.MalformedURLException;
 import java.io.File;
 import java.util.List;
 import java.util.logging.Level;
@@ -129,6 +128,10 @@ public class NewtClient {
 
     public String putFileFromString(String path, String content){
         return files.putFileFromString( path, content );
+    }
+    
+    public JobResponse submitJobFile( String path ){
+        return jobs.submitJobScript( path );
     }
 
     public JobResponse submitJobScript(String jobScript){

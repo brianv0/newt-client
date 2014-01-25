@@ -21,6 +21,22 @@ public class Queue {
         this.target = baseTarget.path( "queue" ).path( machine );
     }
     
+    /**
+     * Submit a file at NERSC to the batch system
+     * @param path Path of the file at NERSC
+     * @return response from operation
+     */
+    public JobResponse submitJobFile(String path) {
+        Form form = new Form("jobfile", path);
+        return target.request().post( 
+                Entity.entity(form,MediaType.APPLICATION_FORM_URLENCODED_TYPE), JobResponse.class);
+    }
+    
+    /**
+     * Submit a string as a job script to be executed
+     * @param jobScript
+     * @return response from operation
+     */
     public JobResponse submitJobScript(String jobScript) {
         Form form = new Form("jobscript", jobScript);
         return target.request().post( 
