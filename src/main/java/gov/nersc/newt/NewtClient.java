@@ -2,18 +2,17 @@ package gov.nersc.newt;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
-import gov.nersc.newt.client.beans.StoreResponse;
-import gov.nersc.newt.client.beans.JobResponse;
-import gov.nersc.newt.client.beans.QueueStatus;
-import gov.nersc.newt.client.beans.LoginStatus;
 import gov.nersc.newt.client.beans.DirectoryEntry;
+import gov.nersc.newt.client.beans.JobResponse;
+import gov.nersc.newt.client.beans.LoginStatus;
+import gov.nersc.newt.client.beans.QueueStatus;
+import gov.nersc.newt.client.beans.StoreResponse;
 import gov.nersc.newt.client.beans.SystemStatus;
 import gov.nersc.newt.client.resources.Account;
 import gov.nersc.newt.client.resources.Files;
 import gov.nersc.newt.client.resources.Queue;
 import gov.nersc.newt.client.resources.Status;
 import gov.nersc.newt.client.resources.Stores;
-import java.io.IOException;
 import java.net.CookieHandler;
 import java.net.CookieManager;
 import java.net.MalformedURLException;
@@ -110,7 +109,7 @@ public class NewtClient {
         return status.status();
     }
 
-    public SystemStatus status(String system) throws IOException{
+    public SystemStatus status(String system) {
         return status.status( system );
     }
 
@@ -180,6 +179,10 @@ public class NewtClient {
 
     public String putFileFromString(String machine, String path, String content){
         return new Files( baseTarget, machine ).putFileFromString( path, content );
+    }
+    
+    public JobResponse submitJobFile( String machine, String path ){
+        return new Queue( baseTarget, machine ).submitJobFile( path );
     }
 
     public JobResponse submitJobScript(String machine, String jobScript){
