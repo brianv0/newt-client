@@ -1,7 +1,7 @@
 
 package gov.nersc.newt;
 
-import gov.nersc.newt.client.beans.StoreResponse;
+import gov.nersc.newt.client.beans.OutputResponse;
 import junit.framework.TestCase;
 
 /**
@@ -18,7 +18,7 @@ public class StoresTest extends TestCase {
     
     public void testCreateStore(){
         int storeCount = newt.getStores().size();
-        StoreResponse resp = newt.createStore( "newtTestStore" );
+        OutputResponse resp = newt.createStore( "newtTestStore" );
         System.out.println(resp.toString());
         assertEquals(resp.getStatus(), "OK");
         

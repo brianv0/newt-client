@@ -6,11 +6,11 @@ import gov.nersc.newt.client.beans.DirectoryEntry;
 import gov.nersc.newt.client.beans.JobResponse;
 import gov.nersc.newt.client.beans.LoginStatus;
 import gov.nersc.newt.client.beans.QueueStatus;
-import gov.nersc.newt.client.beans.StoreResponse;
+import gov.nersc.newt.client.beans.OutputResponse;
 import gov.nersc.newt.client.beans.SystemStatus;
 import gov.nersc.newt.client.resources.Account;
 import gov.nersc.newt.client.resources.Files;
-import gov.nersc.newt.client.resources.Queue;
+import gov.nersc.newt.client.resources.Jobs;
 import gov.nersc.newt.client.resources.Status;
 import gov.nersc.newt.client.resources.Stores;
 import java.net.CookieHandler;
@@ -41,13 +41,13 @@ public class NewtClient {
     private Account auth;
     private Status status;
     private Files files;
-    private Queue jobs;
+    private Jobs jobs;
     private Stores stores;
     private String username;
     private String machine;
     
     static {
-        logger.setLevel( Level.WARNING ); // Note: INFO or higher will show password in logger.
+        logger.setLevel( Level.FINER ); // Note: INFO or higher will show password in logger.
     }
 
     public NewtClient(){
@@ -74,8 +74,12 @@ public class NewtClient {
         status = new Status( baseTarget );
         this.machine = machine;
         files = new Files( baseTarget, machine );
-        jobs = new Queue( baseTarget, machine );
+        jobs = new Jobs( baseTarget, machine );
         stores = new Stores(baseTarget);
+    }
+    
+    public WebTarget getBaseTarget(){
+        return this.baseTarget;
     }
 
     public String getMachine(){
@@ -85,7 +89,7 @@ public class NewtClient {
     public void setMachine(String machine){
         this.machine = machine;
         files = new Files( baseTarget, machine );
-        jobs = new Queue( baseTarget, machine );
+        jobs = new Jobs( baseTarget, machine );
     }
 
     public LoginStatus login(String username, String password){
@@ -129,6 +133,14 @@ public class NewtClient {
         return files.putFileFromString( path, content );
     }
     
+    public OutputResponse mkdir(String path){
+        return files.mkdir( path );
+    }
+
+    public OutputResponse mkdirs(String path){
+        return files.mkdir( path );
+    }
+    
     public JobResponse submitJobFile( String path ){
         return jobs.submitJobScript( path );
     }
@@ -149,15 +161,19 @@ public class NewtClient {
         return jobs.queryJobs( username );
     }
     
+    public OutputResponse runCommand(String fullCommand){
+        return jobs.runCommand( fullCommand );
+    }
+    
     public List<String> getStores(){
         return stores.getStores();
     }
     
-    public StoreResponse createStore(String storeName){
+    public OutputResponse createStore(String storeName){
         return stores.createStore( storeName );
     }
     
-    public StoreResponse deleteStore(String storeName){
+    public OutputResponse deleteStore(String storeName){
         return stores.deleteStore( storeName );
     }
 
@@ -182,23 +198,23 @@ public class NewtClient {
     }
     
     public JobResponse submitJobFile( String machine, String path ){
-        return new Queue( baseTarget, machine ).submitJobFile( path );
+        return new Jobs( baseTarget, machine ).submitJobFile( path );
     }
 
     public JobResponse submitJobScript(String machine, String jobScript){
-        return new Queue( baseTarget, machine ).submitJobScript( jobScript );
+        return new Jobs( baseTarget, machine ).submitJobScript( jobScript );
     }
 
     public QueueStatus queryJob(String machine, String id){
-        return new Queue( baseTarget, machine ).queryJob( id );
+        return new Jobs( baseTarget, machine ).queryJob( id );
     }
 
     public List<QueueStatus> queryAllJobs(String machine){
-        return new Queue( baseTarget, machine ).queryAllJobs();
+        return new Jobs( baseTarget, machine ).queryAllJobs();
     }
 
     public List<QueueStatus> queryJobs(String machine, String username){
-        return new Queue( baseTarget, machine ).queryJobs( username );
+        return new Jobs( baseTarget, machine ).queryJobs( username );
     }
 
     /**

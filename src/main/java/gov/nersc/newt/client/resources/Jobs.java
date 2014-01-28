@@ -2,6 +2,7 @@
 package gov.nersc.newt.client.resources;
 
 import gov.nersc.newt.client.beans.JobResponse;
+import gov.nersc.newt.client.beans.OutputResponse;
 import gov.nersc.newt.client.beans.QueueStatus;
 import java.util.List;
 import javax.ws.rs.client.Entity;
@@ -14,11 +15,13 @@ import javax.ws.rs.core.MediaType;
  * The client resource representing the queue resource.
  * @author bvan
  */
-public class Queue {
-    WebTarget target;
+public class Jobs {
+    WebTarget target;    
+    WebTarget commandTarget;
     
-    public Queue(WebTarget baseTarget, String machine){
+    public Jobs(WebTarget baseTarget, String machine){
         this.target = baseTarget.path( "queue" ).path( machine );
+        this.commandTarget = baseTarget.path( "command" ).path( machine );
     }
     
     /**
@@ -60,4 +63,17 @@ public class Queue {
         return target.queryParam( "user", username ).request()
                 .get( new GenericType<List<QueueStatus>>() {} );
     }
+    
+    /**
+     * Synchronously run a command 
+     * @param fullCommand i.e. "/path/to/exec options"
+     * @return A response
+     */
+    public OutputResponse runCommand(String fullCommand){
+        Form form = new Form( "executable", fullCommand ).param( "loginenv", "true");
+        return commandTarget.request().post(
+                    Entity.entity( form, MediaType.APPLICATION_FORM_URLENCODED_TYPE ), 
+                    OutputResponse.class );
+    }
+    
 }

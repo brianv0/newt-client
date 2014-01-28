@@ -1,14 +1,15 @@
+
 package gov.nersc.newt.client.beans;
 
 /**
  *
  * @author bvan
  */
-public class StoreResponse {
+public class GenericResponse {
     private String status;
-    private String output;
     private String error;
-
+    public GenericResponse(){}
+    
     public String getStatus() {
         return status;
     }
@@ -25,17 +26,4 @@ public class StoreResponse {
         this.error = error;
     }
 
-    public String getOutput() {
-        return output;
-    }
-
-    public void setOutput(String output) {
-        this.output = output;
-    }
-
-    @Override
-    public String toString() {
-        return "Store{" + "status=" + status + ", error=" + error + ", output=" + output + '}';
-    }
-    
 }

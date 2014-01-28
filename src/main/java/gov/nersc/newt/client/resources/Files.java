@@ -1,6 +1,7 @@
 package gov.nersc.newt.client.resources;
 
 import gov.nersc.newt.client.beans.DirectoryEntry;
+import gov.nersc.newt.client.beans.OutputResponse;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.UnsupportedEncodingException;
@@ -20,9 +21,11 @@ import org.glassfish.jersey.media.multipart.file.StreamDataBodyPart;
  */
 public class Files {
     WebTarget target;
+    Jobs jobTarget;
 
     public Files(WebTarget baseTarget, String machine){
         this.target = baseTarget.path( "file" ).path( machine );
+        this.jobTarget = new Jobs(baseTarget, machine);
     }
 
     public List<DirectoryEntry> ls(String path){
@@ -76,4 +79,25 @@ public class Files {
         return target.path( targetPath.getParent().toString() ).request().
                 post( Entity.entity( multipart, multipart.getMediaType() ), String.class );
     }
+    
+    /**
+     * Make directories and all parents
+     * @param path
+     * @return Response and possible error
+     */
+    public OutputResponse mkdir(String path){
+        String command = "mkdir " + path;
+        return jobTarget.runCommand( command );
+    }
+    
+    /**
+     * Make directories and all parents
+     * @param path
+     * @return Response and possible error
+     */
+    public OutputResponse mkdirs(String path){
+        String command = "mkdir -p " + path;
+        return jobTarget.runCommand( command);
+    }
+    
 }

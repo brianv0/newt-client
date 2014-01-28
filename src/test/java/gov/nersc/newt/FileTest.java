@@ -1,5 +1,6 @@
 package gov.nersc.newt;
 
+import gov.nersc.newt.client.resources.Files;
 import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.net.URISyntaxException;
@@ -32,6 +33,9 @@ public class FileTest extends TestCase {
         newt.putFile( "hopper", "/tmp", new File(url.toURI()) );
         output = newt.getFile( "hopper", "/tmp/test.c");
         System.out.print( output.getBytes().length);
+        
+        new Files(newt.getBaseTarget(), "hopper").mkdirs( "/tmp/path/to/somewhere");
+        assertTrue(newt.ls( "/tmp/path/to").size() == 3); // Don't forget . and ..
     }
 
 }
