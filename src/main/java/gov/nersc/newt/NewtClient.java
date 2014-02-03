@@ -141,7 +141,7 @@ public class NewtClient {
         return files.mkdir( path );
     }
     
-    public OutputResponse mkdirs(String oldPath, String newPath){
+    public OutputResponse mv(String oldPath, String newPath){
         return files.mv( oldPath, newPath );
     }
     
