@@ -100,4 +100,15 @@ public class Files {
         return jobTarget.runCommand( command);
     }
     
+    /**
+     * Move files or directories. By default this will not overwrite old files
+     * @param oldPath
+     * @param newPath
+     * @return Response and possible error
+     */
+    public OutputResponse mv(String oldPath, String newPath){
+        String command = String.format("mv -n %s %s", oldPath, newPath);
+        return jobTarget.runCommand( command );
+    }
+    
 }

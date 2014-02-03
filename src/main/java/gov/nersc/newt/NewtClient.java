@@ -141,6 +141,10 @@ public class NewtClient {
         return files.mkdir( path );
     }
     
+    public OutputResponse mkdirs(String oldPath, String newPath){
+        return files.mv( oldPath, newPath );
+    }
+    
     public JobResponse submitJobFile( String path ){
         return jobs.submitJobScript( path );
     }
