@@ -73,6 +73,10 @@ public class DirectoryEntry {
     public void setDate(Date date){
         this.date = date;
     }
+    
+    public boolean isDirectory(){
+        return perms != null ? perms.startsWith( "d" ) : false;
+    }
 
     @Override
     public String toString(){
