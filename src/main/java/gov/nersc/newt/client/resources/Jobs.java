@@ -51,7 +51,7 @@ public class Jobs {
     }
 
     public QueueStatus queryJob(String id) {
-        return target.path(id).request().get( QueueStatus.class );
+        return ResourceUtils.ensureOk( target.path(id).request().get(), QueueStatus.class );
     }
     
     public List<QueueStatus> queryAllJobs() {

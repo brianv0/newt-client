@@ -101,13 +101,14 @@ public class Files {
     }
     
     /**
-     * Move files or directories. By default this will not overwrite old files
+     * Move files or directories. By default this will not overwrite old files, it
+     * will create backups instead.
      * @param oldPath
      * @param newPath
      * @return Response and possible error
      */
     public OutputResponse mv(String oldPath, String newPath){
-        String command = String.format("mv -n %s %s", oldPath, newPath);
+        String command = String.format("mv -b %s %s", oldPath, newPath); // By default, backup
         return jobTarget.runCommand( command );
     }
     

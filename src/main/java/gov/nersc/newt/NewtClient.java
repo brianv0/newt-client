@@ -35,7 +35,7 @@ import org.glassfish.jersey.media.multipart.MultiPartFeature;
  * @author tonyj, bvan
  */
 public class NewtClient {
-    static final Logger logger = Logger.getLogger( NewtClient.class.getCanonicalName() );
+    static final Logger logger = Logger.getLogger( "gov.nersc.newt" );
     private Client client;
     private WebTarget baseTarget;
     private Account auth;
@@ -45,10 +45,6 @@ public class NewtClient {
     private Stores stores;
     private String username;
     private String machine;
-    
-    static {
-        logger.setLevel( Level.FINER ); // Note: INFO or higher will show password in logger.
-    }
 
     public NewtClient(){
         try { init( "https://newt.nersc.gov/newt/", "hopper" ); } catch(MalformedURLException e){}
@@ -66,7 +62,7 @@ public class NewtClient {
         client = ClientBuilder.newBuilder()
                 .register( new JacksonJsonProvider( new ObjectMapper() ) )
                 .register( MultiPartFeature.class )
-                .register( new LoggingFilter( logger, true ) )
+                .register( new LoggingFilter( logger, false ) )
                 .build();
         baseTarget = client.target( baseURL );
         CookieHandler.setDefault( new CookieManager() );
@@ -94,7 +90,9 @@ public class NewtClient {
 
     public LoginStatus login(String username, String password){
         this.username = username;
-        return auth.login( username, password );
+        LoginStatus ls = auth.login( username, password );
+        logger.log( Level.INFO, ls.toString());
+        return ls;
     }
 
     public LoginStatus loginStatus(){
@@ -138,7 +136,7 @@ public class NewtClient {
     }
 
     public OutputResponse mkdirs(String path){
-        return files.mkdir( path );
+        return files.mkdirs( path );
     }
     
     public OutputResponse mv(String oldPath, String newPath){
