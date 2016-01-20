@@ -25,16 +25,16 @@ public class FileTest extends TestCase {
         String output;
         
         String test = "This is a string\nThis is only a string";
-        newt.putFileFromString("hopper", "/tmp/newtstringtest", test);
-        output = newt.getFile( "hopper", "/tmp/newtstringtest");
+        newt.putFileFromString("edison", "/tmp/newtstringtest", test);
+        output = newt.getFile( "edison", "/tmp/newtstringtest");
         assertEquals("Output mismatch", output, test);
         
         URL url = FileTest.class.getResource( "/test.c");
-        newt.putFile( "hopper", "/tmp", new File(url.toURI()) );
-        output = newt.getFile( "hopper", "/tmp/test.c");
+        newt.putFile( "edison", "/tmp", new File(url.toURI()) );
+        output = newt.getFile( "edison", "/tmp/test.c");
         System.out.print( output.getBytes().length);
         
-        new Files(newt.getBaseTarget(), "hopper").mkdirs( "/tmp/path/to/somewhere");
+        new Files(newt.getBaseTarget(), "edison").mkdirs( "/tmp/path/to/somewhere");
         assertTrue(newt.ls( "/tmp/path/to").size() == 3); // Don't forget . and ..
     }
 
