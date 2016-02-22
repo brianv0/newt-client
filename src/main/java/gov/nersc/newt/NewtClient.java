@@ -47,11 +47,11 @@ public class NewtClient {
     private String machine;
 
     public NewtClient(){
-        try { init( "https://newt.nersc.gov/newt/", "edison" ); } catch(MalformedURLException e){}
+        try { init( "https://newt.nersc.gov/newt/", "cori" ); } catch(MalformedURLException e){}
     }
 
     public NewtClient(String baseURL) throws MalformedURLException{
-        init( baseURL, "edison" );
+        init( baseURL, "cori" );
     }
 
     public NewtClient(String baseURL, String machine) throws MalformedURLException {
