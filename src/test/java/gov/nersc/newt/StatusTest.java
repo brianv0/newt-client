@@ -20,9 +20,9 @@ public class StatusTest extends TestCase {
     public void testStatus(){
         assertTrue("Should have found more than 4 systems", newt.status().size() > 4);
         try {
-            newt.status("edison");
+            newt.status("cori");
         } catch (Exception e){
-            fail("Should have found status for edison");
+            fail("Should have found status for cori");
         }
     }
 }
